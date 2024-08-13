@@ -15,7 +15,7 @@ page_size = 10000
 def build_query(source_id):
     query_comp1 = {
         "size": page_size,
-        "query": {
+        "query": 
             "bool": {
                 "must": [
                     {
@@ -63,7 +63,7 @@ def elastic_search(source_id):
         while True:
             # Perform the scroll using POST request
             scroll_response = requests.post(
-                "https://analytics-es.k8s.euw1.data-production-1.ivxs.uk/_search/scroll", json={"scroll": scroll_time, "scroll_id": scroll_id})
+                ELASTIC_ENDPOINT, json={"scroll": scroll_time, "scroll_id": scroll_id})
             scroll_data = scroll_response.json()
 
             if "hits" not in scroll_data or not scroll_data.get('hits', {}).get('hits', []):
