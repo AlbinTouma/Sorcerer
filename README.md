@@ -58,6 +58,53 @@ The files rely on templates.
 - `constants.py` contains lists of keywords and stopwords used in assessing PEP names. 
 
 
+## Output
+
+## Tier Schema
+
+
+| Field                                                | Reject (if any is invalid)                                                                                | Insufficient (if any is missing)                  | Good enough                                    | Thresholds 1 | T2    | T3    |
+|------------------------------------------------------|---------------------------------------------------------------------------------------------------------|--------------------------------|------------------------------------------------|---------------------------|-------|-------|
+| **Name**                                                 | Invalid                                                                                                 | Missing                        | ✅                                          | ✅                     | ✅ | ✅ |
+| **DoB**                                                  | `>200 years ago & <18                                                                                   | Missing                        | ✅                                          | ✅                     | ✅ | ✅ |
+| **Occupation**                                           | Not a PEP ¿What about RCAs?                                                                             | Missing                        | ✅                                          | ✅                     | ✅ | ✅ |
+| **Location**                                             | Reject if missing location/valid location. If value is a continent not useful, treat those as missing.  |                         | 🟡                                        | ✅  | ✅ | ✅ |
+| **Source Url**                                           | Invalid url                                                                                             |                         | 🟡 | ✅                     | ✅ |       |
+| **position start date***  | Reject if either start or end date missing |  | 🟡        | ✅                     |       |       |
+| **DoD**                                                  | >100 years ago                                                                                          |                         | 🟡                                        |                           |       |       |
+
+
+
+To understand the scale of enriching PEP profiles, we break PEPs into thresholds based on a set of conditions:
+
+1. ✅ valid (1),
+2. ❌ invalid (0),
+3. missing (None).
+4. 🟡 Present (either valid or invalid, not missing)
+5. Blanks are fields that we are agnostic about. Value of data point can be missing, invalid, valid
+
+A PEP can fall into one or more tiers. This gives us a funnel view of PEPs in our sources that describes how big the difference is between each tier.
+
+
+ invalid                   | t1                             | t2 | t3 | good enough | insufficient | rejected |       |
+|---------------------------|--------------------------------|----|----|-------------|--------------|----------|-------|
+| Tranche                   |                                |    |    |             |              |          |       |
+| 4.0                       | quality, age, name, occupation | 0  | 0  | 0           | 0            | 994      | 994   |
+| 3.0                       | quality,age, occupation        | 0  | 0  | 0           | 0            | 67423    | 67465 |
+| quality,age, name         | 0                              | 0  | 0  | 0           | 1334         | 1334     |       |
+| quality, name, occupation | 0                              | 0  | 0  | 0           | 78           | 97       |       |
+| age, name, occupation     | 0                              | 0  | 0  | 0           | 0            | 0        |       |
+| 2.0                       | quality, age                   | 0  | 0  | 0           | 0            | 210559   | 13584 |
+| quality, occupation       | 0                              | 0  | 0  | 0           | 1524         | 3283     |       |
+| age, name                 | 0                              | 0  | 0  | 0           | 179          | 179      |       |
+| quality, name             | 0                              | 0  | 0  | 0           | 75           | 88       |       |
+| name, occupation          | 0                              | 0  | 0  | 0           | 0            | 21       |       |
+| age, occupation           | 0                              | 0  | 0  | 0           | 0            | 0        |       |
+| 1.0                       | age                            | 0  | 0  | 0           | 0            | 31683    | 2767  |
+| occupation                | 0                              | 0  | 0  | 0           | 0            | 13189    |       |
+| quality                   | 0                              | 0  | 0  | 0           | 4312         | 0        |       |
+| name                      | 0                              | 0  | 0  | 0           | 175          | 1344     |       |
+
 
 
 
