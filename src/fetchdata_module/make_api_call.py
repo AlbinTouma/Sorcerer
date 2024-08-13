@@ -5,7 +5,7 @@ import timeit
 import pandas as pd
 
 
-url = "https://analytics-es.k8s.euw1.data-production-1.ivxs.uk/entities_all_prod/_search"
+url = ELASTIC_SEARCH_URL 
 scroll_time = "1m"
 page_size = 10000
 
@@ -95,8 +95,6 @@ def main(source_name, source_id):
     normalised_response = normalise_response(response)
     normalised_response.to_parquet(
         f'parquet/{source_name}.parquet')
-
-    # print(f'fetched - {source_name}')
 
 
 if __name__ == '__main__':

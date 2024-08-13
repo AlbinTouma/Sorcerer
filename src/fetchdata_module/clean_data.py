@@ -43,7 +43,6 @@ def main(file_path, parquet_file):
 
         df.to_parquet(f'parquet/{parquet_file}')
 
-        # print(f'Completed scrubbing data for {parquet_file}')
 
 
 if __name__ == '__main__':
